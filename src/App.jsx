@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import Header from './components/Header';
+import { Route, Routes } from 'react-router-dom';
+import Login from './components/Login';
+import Blogs from './components/Blogs';
+import UserBlogs from './components/UserBlogs';
+import BlogDetail from './components/BlogDetail';
+import AddBlogs from './components/AddBlogs';
 
 export default class App extends Component {
   constructor(props) {
