@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { Route, Routes } from 'react-router-dom';
+import Login from './components/Login';
 
 export default class App extends Component {
 
