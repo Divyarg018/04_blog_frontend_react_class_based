@@ -4,6 +4,9 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
+import Logout from './components/Logout';
+import Signup from './components/Signup';
+import Home from './components/Home';
 
 export default class App extends Component {
 
