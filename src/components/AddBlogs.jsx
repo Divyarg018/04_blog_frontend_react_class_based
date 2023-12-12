@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
+import axios from 'axios';
+// import { Link } from 'react-router-dom'
 
 export class AddBlogs extends Component {
     constructor(props) {
@@ -12,6 +13,7 @@ export class AddBlogs extends Component {
             }
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(e) {
@@ -23,11 +25,36 @@ export class AddBlogs extends Component {
         }))
     }
 
+    async sendRequest() {
+        const res = await axios.post(`http://localhost:5000/api/blog/add`, {
+            title: this.state.inputs.title,
+            description: this.state.inputs.description,
+            image: this.state.inputs.image,
+            user: localStorage.getItem("userID")
+        }).catch(err => {
+            if (err.response.request.status === 404) {
+                alert("User does not exist");
+                this.setState(false);
+            } else if (err.response.request.status === 400) {
+                alert("Invalid password");
+                this.setState(false);
+            }
+        })
+
+        let data = null;
+        if (res) {
+            data = await res.data;
+        }
+        return data;
+    }
 
     handleSubmit(e) {
         e.preventDefault();
-        // console.log(this.state.inputs);
+        this.sendRequest()
+            .then(data => console.log(data))
+        console.log(this.state.inputs);
     }
+
     render() {
         return (
             <>

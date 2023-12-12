@@ -1,44 +1,48 @@
 import React, { Component } from 'react';
-import './App.css';
 import Navbar from './components/Navbar';
+import Home from './components/Home.jsx';
 import Footer from './components/Footer';
-import { Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
+import { Route, Routes } from 'react-router-dom';
 import Logout from './components/Logout';
 import Signup from './components/Signup';
-import Home from './components/Home';
 import AddBlogs from './components/AddBlogs';
-// import Blogs from './components/Blogs';
 import UserBlogs from './components/UserBlogs';
 import BlogDetail from './components/BlogDetail';
 
-export default class App extends Component {
+export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoggedIn: false,
     }
+    this.setLoggedIn = this.setLoggedIn.bind(this);
   }
-  render() {
 
+  setLoggedIn() {
+    this.setState()
+  }
+
+  render() {
     return (
       <>
         <Navbar isLoggedIn={this.state.isLoggedIn} />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/auth' element={<Login />} />
-          <Route path='/auth/logout' element={<Logout />} />
-          <Route path='/auth/signup' element={<Signup />} />
+          <Route path='/auth' element={<Login setLoggedIn={this.setLoggedIn} />} />
+          <Route path='/auth/logout' element={<Logout setLoggedIn={this.setLoggedIn()} />} />
+          <Route path='/auth/signup' element={<Signup setLoggedIn={this.setLoggedIn()} />} />
 
           <Route path='/' element={<Home />} />
-          <Route path='/blog/add' element={<AddBlogs />} />
+          <Route path='/blog/add' element={<AddBlogs isLoggedIn={this.state.isLoggedIn} />} />
           <Route path='/myBlogs' element={<UserBlogs />} />
           <Route path='/myBlogs/:id' element={<BlogDetail />} />
         </Routes>
         <Footer />
 
       </>
-    );
+    )
   }
 }
 
+export default App;
