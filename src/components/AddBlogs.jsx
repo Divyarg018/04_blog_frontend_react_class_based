@@ -2,6 +2,32 @@ import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
 
 export class AddBlogs extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            inputs: {
+                title: '',
+                description: '',
+                image: '',
+            }
+        }
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(e) {
+        this.setState((prevState) => ({
+            inputs: {
+                ...prevState.inputs,
+                [e.target.name]: e.target.value,
+            }
+        }))
+    }
+
+
+    handleSubmit(e) {
+        e.preventDefault();
+        // console.log(this.state.inputs);
+    }
     render() {
         return (
             <>
