@@ -47,26 +47,29 @@ export class Login extends Component {
         e.preventDefault();
         console.log(this.state.inputs);
         this.sendRequest("login")
-            .then(data => localStorage.setState("userID", data.user._id))
-            .catch(err => console.log("There is mistake in Login"))
+            .then(data => localStorage.setItem("userID", data.user._id))
+            .catch(err => console.log("There is a mistake in Login"))
 
+    }
+    componentDidMount() {
+        const localData = localStorage.getItem("userID");
     }
 
     render() {
         return (
             < >
-        <header className="masthead" style={{ "backgroundImage": "url('assets/img/post.jpg')" }}>
-          <div className="container position-relative px-4 px-lg-5">
-            <div className="row gx-4 gx-lg-5 justify-content-center">
-              <div className="col-md-10 col-lg-8 col-xl-7">
-                <div className="page-heading">
-                  <h1>Login Page</h1>
-                  <span className="subheading">Login User to View Blogs</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
+                <header className="masthead" style={{ "backgroundImage": "url('assets/img/post.jpg')" }}>
+                    <div className="container position-relative px-4 px-lg-5">
+                        <div className="row gx-4 gx-lg-5 justify-content-center">
+                            <div className="col-md-10 col-lg-8 col-xl-7">
+                                <div className="page-heading">
+                                    <h1>Login Page</h1>
+                                    <span className="subheading">Login User to View Blogs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
                 <main className="mb-4">
                     <div className="container px-4 px-lg-5">
                         <div className="row gx-4 gx-lg-5 justify-content-center">
