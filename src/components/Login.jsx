@@ -42,9 +42,14 @@ export class Login extends Component {
         }
         return data;
     }
+    handleSubmit(e) {
+        e.preventDefault();
+        console.log(this.state.inputs);
+        this.sendRequest("login")
+            .then(data => localStorage.setState("userID", data.user._id))
+            .catch(err => console.log("There is mistake in Login"))
 
-
-
+    }
 
     render() {
         return (
