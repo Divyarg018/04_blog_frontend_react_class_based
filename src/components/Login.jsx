@@ -1,13 +1,14 @@
 import axios from 'axios';
 import React, { Component } from 'react';
+// import { Link } from 'react-router-dom';
 
 export class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
             inputs: {
-                email: "empty",
-                password: "empty"
+                email: "",
+                password: ""
             }
         }
         this.handleChange = this.handleChange.bind(this);
@@ -40,13 +41,14 @@ export class Login extends Component {
         let data = null;
         if (res) {
             data = await res.data;
+            console.log(data);
         }
         return data;
     }
     handleSubmit(e) {
         e.preventDefault();
         console.log(this.state.inputs);
-        this.sendRequest("login")
+        this.sendRequest("")
             .then(data => localStorage.setItem("userID", data.user._id))
             .catch(err => console.log("There is a mistake in Login"))
 

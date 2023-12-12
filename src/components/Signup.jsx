@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Header from './Header';
 import axios from 'axios';
+// import { Link } from 'react-router-dom';
 
 export class Signup extends Component {
     constructor(props) {
@@ -38,20 +38,33 @@ export class Signup extends Component {
         let data = null;
         if (res) {
             data = await res.data;
+            console.log(data);
         }
         return data;
     }
 
-    async handleSubmit(e) {
+    handleSubmit(e) {
         e.preventDefault()
         console.log(this.state.inputs);
-        const result = await this.sendRequest();
-        this.props.navigation.navigate('/auth')
+        this.sendRequest()
+            .then(data => localStorage.setItem("userID", data.user._id))
+            .catch(err => console.log("There is a mistake in Signup"))
     }
     render() {
         return (
             <>
-                <Header banner="assets/img/about.jpg" heading="Signup Page" subHeading="Register a new User" />
+                <header className="masthead" style={{ "backgroundImage": "url('assets/img/about.jpg')" }}>
+                    <div className="container position-relative px-4 px-lg-5">
+                        <div className="row gx-4 gx-lg-5 justify-content-center">
+                            <div className="col-md-10 col-lg-8 col-xl-7">
+                                <div className="page-heading">
+                                    <h1>Sign up</h1>
+                                    <span className="subheading">Register new user</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
                 <main className="mb-4">
                     <div className="container px-4 px-lg-5">
                         <div className="row gx-4 gx-lg-5 justify-content-center">
@@ -76,7 +89,7 @@ export class Signup extends Component {
                                         </div><br />
                                         {/* Submit Button*/}
                                         <div style={{ textAlign: 'center' }}>
-                                            <button className="btn text-uppercase" id="submitButton" type="submit" style={{ color: 'orange' }}>Sign Up</button><br />
+                                            <button className="btn text-uppercase" id="submitButton" type="submit" style={{ color: 'orange' }}>Sign Up</button>
                                         </div>
 
                                         <span style={{ 'color': '#dc3545', 'fontWeight': 'bold', 'fontStyle': 'oblique' }}>
