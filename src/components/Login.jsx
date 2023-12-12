@@ -54,8 +54,18 @@ export class Login extends Component {
     render() {
         return (
             < >
-                <Header banner="/assets/img/post.jpg" heading="Login Page" subHeading="Login User to view blogs" />
-
+        <header className="masthead" style={{ "backgroundImage": "url('assets/img/post.jpg')" }}>
+          <div className="container position-relative px-4 px-lg-5">
+            <div className="row gx-4 gx-lg-5 justify-content-center">
+              <div className="col-md-10 col-lg-8 col-xl-7">
+                <div className="page-heading">
+                  <h1>Login Page</h1>
+                  <span className="subheading">Login User to View Blogs</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
                 <main className="mb-4">
                     <div className="container px-4 px-lg-5">
                         <div className="row gx-4 gx-lg-5 justify-content-center">
