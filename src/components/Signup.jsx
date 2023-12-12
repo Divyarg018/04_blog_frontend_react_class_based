@@ -51,8 +51,7 @@ export class Signup extends Component {
     render() {
         return (
             <>
-                <Header banner="/assets/img/about.jpg" heading="Signup Page" subHeading="Register a new User" />
-
+                <Header banner="assets/img/about.jpg" heading="Signup Page" subHeading="Register a new User" />
                 <main className="mb-4">
                     <div className="container px-4 px-lg-5">
                         <div className="row gx-4 gx-lg-5 justify-content-center">
