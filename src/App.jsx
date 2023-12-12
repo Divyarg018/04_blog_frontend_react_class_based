@@ -9,11 +9,17 @@ import Signup from './components/Signup';
 import Home from './components/Home';
 
 export default class App extends Component {
-
+  constructor(props){
+    super(props);
+    this.state = {
+      isLoggedIn: false,
+    }
+  }
   render() {
+    
     return (
       <>
-        <Navbar />
+       <Navbar isLoggedIn={this.state.isLoggedIn}/>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/auth' element={<Login />}></Route>
