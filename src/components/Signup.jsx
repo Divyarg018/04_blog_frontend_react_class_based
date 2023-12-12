@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from './Header';
+import axios from 'axios';
 
 export class Signup extends Component {
     constructor(props) {
@@ -14,7 +15,9 @@ export class Signup extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.sendRequest = this.sendRequest.bind(this);
     }
+
 
     handleChange(e) {
         this.setState((prevState) => ({
@@ -25,9 +28,25 @@ export class Signup extends Component {
         }))
     }
 
-    handleSubmit(e) {
+    async sendRequest() {
+        const res = await axios.post(`http://localhost:5000/api/user/signup`, {
+            name: this.state.inputs.name,
+            email: this.state.inputs.email,
+            password: this.state.inputs.password,
+        }).catch(err => console.log(err))
+
+        let data = null;
+        if (res) {
+            data = await res.data;
+        }
+        return data;
+    }
+
+    async handleSubmit(e) {
         e.preventDefault()
         console.log(this.state.inputs);
+        const result = await this.sendRequest();
+        this.props.navigation.navigate('/auth')
     }
     render() {
         return (
