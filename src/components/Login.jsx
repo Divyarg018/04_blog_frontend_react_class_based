@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Header from './Header';
 
 export class Login extends Component {
     constructor(props) {
@@ -22,17 +21,35 @@ export class Login extends Component {
             }
         }))
     }
+    async sendRequest() {
+        const res = await axios.post(`http://localhost:5000/api/user/login`, {
+            name: this.state.inputs.name,
+            email: this.state.inputs.email,
+            password: this.state.inputs.password,
+        }).catch(err => {
+            if (err.response.request.status === 404) {
+                alert("User does not exist");
+                this.setState(false);
+            } else if (err.response.request.status === 400) {
+                alert("Invalid password");
+                this.setState(false);
+            }
+        })
 
-    handleSubmit(e) {
-        e.preventDefault();
-        console.log(this.state.inputs);
+        let data = null;
+        if (res) {
+            data = await res.data;
+        }
+        return data;
     }
+
+
 
 
     render() {
         return (
             < >
-                <Header banner="/assets/img/post-sample.jpg" heading="Login Page" subHeading="Login User to view blogs" />
+                <Header banner="/assets/img/post.jpg" heading="Login Page" subHeading="Login User to view blogs" />
 
                 <main className="mb-4">
                     <div className="container px-4 px-lg-5">
