@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import axios from 'axios';
 // import { Link } from 'react-router-dom';
 
@@ -11,13 +11,13 @@ export class Signup extends Component {
                 email: "",
                 password: ""
             }
-
         }
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.sendRequest = this.sendRequest.bind(this);
-    }
 
+    }
 
     handleChange(e) {
         this.setState((prevState) => ({
@@ -48,8 +48,13 @@ export class Signup extends Component {
         console.log(this.state.inputs);
         this.sendRequest()
             .then(data => localStorage.setItem("userID", data.user._id))
-            .catch(err => console.log("There is a mistake in Signup"))
+            .then(data => {
+                this.props.setLoggedIn(true);
+                window.location.replace("/myBlogs")
+            })
+            .catch(err => console.log("There is mistake in Sign up"))
     }
+
     render() {
         return (
             <>
@@ -65,6 +70,7 @@ export class Signup extends Component {
                         </div>
                     </div>
                 </header>
+
                 <main className="mb-4">
                     <div className="container px-4 px-lg-5">
                         <div className="row gx-4 gx-lg-5 justify-content-center">
@@ -106,4 +112,4 @@ export class Signup extends Component {
     }
 }
 
-export default Signup;
+export default Signup
