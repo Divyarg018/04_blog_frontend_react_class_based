@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 export class Header extends Component {
 
@@ -26,4 +26,4 @@ export class Header extends Component {
   }
 }
 
-export default Header;
+export default Header
