@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 export class Footer extends Component {
     render() {
         return (
+
             <footer className="border-top">
                 <div className="container px-4 px-lg-5">
                     <div className="row gx-4 gx-lg-5 justify-content-center">
@@ -42,4 +43,5 @@ export class Footer extends Component {
         )
     }
 }
-export default Footer;
+
+export default Footer
