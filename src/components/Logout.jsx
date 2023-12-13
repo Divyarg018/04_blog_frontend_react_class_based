@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react'
+// import Home from './Home';
 
 export class Logout extends Component {
     constructor() {
@@ -8,16 +8,13 @@ export class Logout extends Component {
     }
 
     handleLogout() {
-        this.props.isLoggedIn(false)
+        this.props.setLoggedIn(false);
+        window.location.replace("/")
         localStorage.clear();
-
     }
     render() {
         return (
             <div onClick={this.handleLogout}>
-                <Link to='/auth'></Link>
-                Thank You
-
             </div>
         )
     }
