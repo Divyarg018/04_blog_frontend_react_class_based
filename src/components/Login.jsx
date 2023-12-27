@@ -9,6 +9,11 @@ export class Login extends Component {
             inputs: {
                 email: "",
                 password: ""
+            },
+            error: {
+                errFlag: false,
+                errStatus: "",
+                errMsg: ""
             }
         }
         this.handleChange = this.handleChange.bind(this);
@@ -26,18 +31,26 @@ export class Login extends Component {
     }
 
     async sendRequest() {
-        const res = await axios.post(`http://localhost:5000/api/user/login`, {
-            email: this.state.inputs.email,
-            password: this.state.inputs.password,
-        }).catch(err => {
-            if (err.response.request.status === 404) {
-                alert("User does not exist");
-                this.props.setLoggedIn(false);
-            } else if (err.response.request.status === 400) {
-                alert("Invalid password");
-                this.props.setLoggedIn(false);
-            }
-        })
+        let res;
+
+        try {
+            res = await axios.post(`http://localhost:5000/api/user/login`, {
+                email: this.state.inputs.email,
+                password: this.state.inputs.password,
+            });
+        }
+        catch (err) {
+            this.props.setLoggedIn(false);
+
+            this.setState(prevState => ({
+                ...prevState,
+                error: {
+                    errFlag: true,
+                    errStatus: err.response.request.status,
+                    errMsg: err.response.data.message,
+                }
+            }));
+        }
 
         let data = null;
         if (res) {
@@ -61,7 +74,7 @@ export class Login extends Component {
                 }));
                 window.location.replace("/myBlogs")
             })
-            .catch(err => console.log("There is mistake in Login"))
+            .catch(err => console.log("User ID not being set into Local Storage, so chill!!"))
     }
 
     render() {
@@ -102,10 +115,12 @@ export class Login extends Component {
                                         <div style={{ textAlign: 'center' }}>
                                             <button className="btn text-uppercase" id="submitButton" type="submit" style={{ color: 'orange' }}>Submit</button>
                                         </div>
-
-                                        <span style={{ 'color': '#dc3545', 'fontWeight': 'bold', 'fontStyle': 'oblique' }}>
-                                            &ensp; &ensp;
-                                        </span>
+                                        {
+                                            (this.state.error.errFlag) &&
+                                            <span style={{ 'color': '#dc3545', 'fontWeight': 'bold', 'fontStyle': 'oblique' }}>
+                                                &ensp; &ensp; {this.state.error.errMsg} &ensp; &ensp; :  {this.state.error.errStatus}
+                                            </span>
+                                        }
                                     </form>
                                 </div>
                             </div>

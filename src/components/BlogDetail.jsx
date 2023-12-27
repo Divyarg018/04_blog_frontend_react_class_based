@@ -18,13 +18,26 @@ export class BlogDetail extends Component {
     }
 
     handleChange(e) {
-        this.setState((prevState) => ({
-            inputs: {
+        this.setState(prevState => {
+    
+          if (!e.target.files || Object.keys(e.target.files).length === 0) {
+            return ({
+              inputs: {
                 ...prevState.inputs,
                 [e.target.name]: e.target.value,
+              }
+            })
+          }
+    
+          return ({
+            inputs: {
+              ...prevState.inputs,
+              [e.target.name]: e.target.value,
+              image: e.target.files[0]
             }
-        }))
-    }
+          });
+        });
+      }
 
     async fetchDetails(id) {
         const res = await axios.get(`http://localhost:5000/api/blog/${id}`)
@@ -53,20 +66,21 @@ export class BlogDetail extends Component {
     }
 
     async sendRequest(id) {
-        const res = await axios.put(`http://localhost:5000/api/blog/update/${id}`, {
-            title: this.state.inputs.title,
-            description: this.state.inputs.description,
-            image: this.state.inputs.image
-        })
-            .catch(err => console.log(err))
-
+        const formData = new FormData();
+        formData.append('title', this.state.inputs.title);
+        formData.append('description', this.state.inputs.description);
+        formData.append('image', this.state.inputs.image, this.state.inputs.image.name);
+    
+        const res = await axios.put(`http://localhost:5000/api/blog/update/${id}`,formData)
+          .catch(err => console.log(err))
+    
         let data = null;
         if (res) {
-            data = await res.data;
-            console.log(data);
+          data = await res.data;
+          console.log(data);
         }
         return data;
-    }
+      }
 
     handleSubmit(e) {
         e.preventDefault();

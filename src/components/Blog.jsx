@@ -61,7 +61,6 @@ class Blog extends Component {
                                     <h1>{this.state.blog.title}</h1>
                                     <span className="meta">
                                         Posted by {this.state.blog.user.name}
-                                        on xxxxxxxx
                                     </span>
                                 </div>
                             </div>

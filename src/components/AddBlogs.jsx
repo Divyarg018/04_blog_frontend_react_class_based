@@ -11,6 +11,11 @@ export class AddBlogs extends Component {
         title: '',
         description: '',
         image: '',
+      },
+      error: {
+        errFlag: false,
+        errStatus: "",
+        errMsg: ""
       }
     }
     this.handleChange = this.handleChange.bind(this);
@@ -18,28 +23,50 @@ export class AddBlogs extends Component {
   }
 
   handleChange(e) {
-    this.setState((prevState) => ({
-      inputs: {
-        ...prevState.inputs,
-        [e.target.name]: e.target.value,
+    this.setState(prevState => {
+
+      if (!e.target.files || Object.keys(e.target.files).length === 0) {
+        return ({
+          ...prevState,
+          inputs: {
+            ...prevState.inputs,
+            [e.target.name]: e.target.value,
+          }
+        })
       }
-    }))
+
+      return ({
+        ...prevState,
+        inputs: {
+          ...prevState.inputs,
+          [e.target.name]: e.target.value,
+          image: e.target.files[0]
+        }
+      });
+    });
   }
   async sendRequest() {
-    const res = await axios.post(`http://localhost:5000/api/blog/add`, {
-      title: this.state.inputs.title,
-      description: this.state.inputs.description,
-      image: this.state.inputs.image,
-      user: localStorage.getItem("userID")
-    }).catch(err => {
-      if (err.response.request.status === 404) {
-        alert("User does not exist");
-        this.setState(false);
-      } else if (err.response.request.status === 400) {
-        alert("Invalid password");
-        this.setState(false);
-      }
-    })
+    const formData = new FormData();
+    formData.append('title', this.state.inputs.title);
+    formData.append('description', this.state.inputs.description);
+    formData.append('userID', localStorage.getItem("userID"));
+    formData.append('image', this.state.inputs.image, this.state.inputs.image.name);
+
+    let res;
+
+    try {
+      res = await axios.post(`http://localhost:5000/api/blog/add`, formData)
+    }
+    catch (err) {
+      this.setState(prevState => ({
+        ...prevState,
+        error: {
+          errFlag: true,
+          errStatus: err.response.request.status,
+          errMsg: err.response.data.message,
+        }
+      }));
+    }
 
     let data = null;
     if (res) {
@@ -51,12 +78,9 @@ export class AddBlogs extends Component {
   handleSubmit(e) {
     e.preventDefault();
     this.sendRequest()
-      .then(data => console.log(data))
-      .then(() => {
+      .then(data => {
         window.location.replace("/myBlogs")
       })
-
-    console.log(this.state.inputs);
 
   }
   render() {
@@ -101,6 +125,12 @@ export class AddBlogs extends Component {
                 <div style={{ textAlign: 'center' }}>
                   <button id="submitButton" className="btn btn-primary text-uppercase" type="submit">Send</button>
                 </div>
+                {
+                  (this.state.error.errFlag) &&
+                  <span style={{ 'color': '#dc3545', 'fontWeight': 'bold', 'fontStyle': 'oblique' }}>
+                    &ensp; &ensp; {this.state.error.errMsg} &ensp; &ensp; :  {this.state.error.errStatus}
+                  </span>
+                }
               </form>
             </div>
           </div>
